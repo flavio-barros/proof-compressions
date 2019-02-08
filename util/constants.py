@@ -1,7 +1,7 @@
 # Directories
 
 PROOFS_DIRECTORY = "proofs"
-LOGS_DIRECTORY = "logs"
+LOGS_DIRECTORY = "log_files"
 
 # Algorithms
 

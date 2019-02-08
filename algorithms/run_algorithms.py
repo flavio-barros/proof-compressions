@@ -1,10 +1,11 @@
 from util import constants as const
 from os import listdir
 from os.path import isfile, join
-from datetime import datetime
+from log import log
+
 import time
 import random
-import csv
+import itertools
 
 
 def run_algorithms(algorithms):
@@ -12,17 +13,20 @@ def run_algorithms(algorithms):
     path = const.PROOFS_DIRECTORY + "/"
     files = [f for f in listdir(path) if isfile(join(path, f))]
 
+    formulas = log.get_conclusion_formulas(files)
+
     for alg in algorithms:
         algorithm_log = []
         algorithm_impl = identify_algorithms(alg)
-        for f in files:
-            proof_log = [f]
-            print "run", alg, "in file", f
+        for (file_name, formula) in itertools.izip(files, formulas):
+            proof_log = [file_name, len(formula)]
+            print "run", alg, "in file", file_name, "formula with", \
+                len(formula), "characters"
             exec_time = run_algorithm(file, algorithm_impl)
             print "executed in", exec_time, "seconds"
             proof_log.append(exec_time)
             algorithm_log.append(proof_log)
-        save_log(alg, algorithm_log)
+        log.write_log(alg, algorithm_log)
 
 
 def run_algorithm(file, function):
@@ -51,14 +55,4 @@ def identify_algorithms(algorithm_constant):
         return run_horizontal_compression
 
     return None
-
-
-def save_log(algorithm, data_log):
-
-    dtime = datetime.now()
-    file_path = "{0}/{1}-{2}.csv".format(
-        const.LOGS_DIRECTORY,algorithm, str(dtime))
-    with open(file_path, "wb") as f:
-        writer = csv.writer(f)
-        writer.writerows(data_log)
 
