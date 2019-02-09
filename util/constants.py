@@ -1,7 +1,8 @@
 # Directories
 
-PROOFS_DIRECTORY = "proofs"
-LOGS_DIRECTORY = "log_files"
+PROOFS_DIR = "proofs"
+LOGS_DIR = "log_files"
+C_PROOFS_DIR = "compressed_proofs"
 
 # Algorithms
 
