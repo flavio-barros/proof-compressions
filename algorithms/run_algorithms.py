@@ -3,9 +3,10 @@ from log import log
 from algorithms.huffman_coding import Huffman
 
 import time
-import random
 import itertools
 import os
+
+from compressing.horizontal_compression import HorizontalCompression
 
 
 def run_algorithms(algorithms):
@@ -54,8 +55,7 @@ def run_huffman_coding(file_name):
 
 
 def run_horizontal_compression(file_name):
-    rand_time = random.randint(1, 3)
-    time.sleep(rand_time)
+    h_compression = HorizontalCompression(file_name)
     return None, None
 
 
