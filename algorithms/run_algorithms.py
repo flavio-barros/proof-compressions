@@ -2,11 +2,12 @@ from util import constants as const
 from log import log
 from algorithms.huffman_coding import Huffman
 
+import networkx as nx
 import time
 import itertools
 import os
 
-from compressing.horizontal_compression import HorizontalCompression
+# from compressing.horizontal_compression import HorizontalCompression
 
 
 def run_algorithms(algorithms):
@@ -14,16 +15,17 @@ def run_algorithms(algorithms):
     files = \
         [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
 
-    formulas = log.get_conclusion_formulas(files)
+    conclusions = log.get_conclusion_formulas(files)
 
     for alg in algorithms:
         algorithm_log = []
         algorithm_impl = identify_algorithms(alg)
-        for (file_name, formula) in itertools.izip(files, formulas):
-            print "run", alg, "in file", file_name, "formula with", \
-                len(formula), "characters"
+        for (file_name, conclusion) in itertools.izip(files, conclusions):
+            print "run", alg, "in file", file_name
 
-            proof_log = [file_name, len(formula)]
+            conclusion_size = log.get_conclusion_size(conclusion)
+
+            proof_log = [file_name, conclusion, conclusion_size]
 
             algorithm_data = run_algorithm(file_name, algorithm_impl)
             exec_time, size, comp_size = algorithm_data
@@ -33,8 +35,6 @@ def run_algorithms(algorithms):
             proof_log.append(exec_time)
 
             algorithm_log.append(proof_log)
-
-            print "executed in", exec_time, "seconds"
         log.write_log(alg, algorithm_log)
 
 
@@ -55,7 +55,7 @@ def run_huffman_coding(file_name):
 
 
 def run_horizontal_compression(file_name):
-    h_compression = HorizontalCompression(file_name)
+    # h_compression = HorizontalCompression(file_name)
     return None, None
 
 

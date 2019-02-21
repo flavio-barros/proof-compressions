@@ -24,10 +24,22 @@ def get_conclusion_formulas(files):
     return formulas
 
 
+def get_conclusion_size(conclusion):
+
+    conclusion = conclusion.replace("(", "")
+    conclusion = conclusion.replace(")", "")
+
+    num_imp = conclusion.count("->")
+
+    conclusion = conclusion.split("->")
+
+    return num_imp + len(conclusion)
+
+
 def write_log(algorithm, data_log):
 
-    header = ["file", "conclusion_size", "file_size", "comp_file_size",
-              "exec_time"]
+    header = ["file", "conclusion", "conclusion_size", "file_size",
+              "comp_file_size", "exec_time"]
 
     date_now = datetime.now()
     file_path = "{0}/{1}-{2}.csv".format(
